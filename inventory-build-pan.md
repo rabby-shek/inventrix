@@ -1755,29 +1755,36 @@ inventrix/
 │       │   ├── panel.blade.php    # Master layout (sidebar, topbar, content)
 │       │   └── sidebar.blade.php  # Collapsible sidebar with all menus
 │       ├── welcome.blade.php      # Login page (standalone)
-│       ├── dashboard.blade.php    # Dashboard with stats
-│       ├── products.blade.php     # Products list
-│       ├── categories.blade.php   # Categories grid
-│       ├── brands.blade.php       # Brands list
-│       ├── stock.blade.php        # Stock management
-│       ├── warehouses.blade.php   # Warehouse cards
-│       ├── stock-adjustments.blade.php  # Stock adjustments
-│       ├── orders.blade.php       # Orders list
-│       ├── invoices.blade.php     # Invoices list
-│       ├── returns.blade.php      # Returns list
-│       ├── shipments.blade.php    # Shipments list
-│       ├── purchase-orders.blade.php  # Purchase orders
-│       ├── suppliers.blade.php    # Suppliers list
-│       ├── customers.blade.php    # Customers list
-│       ├── expenses.blade.php     # Expenses list
-│       ├── payments.blade.php     # Payments list
-│       ├── reports.blade.php      # Reports hub
-│       ├── tax-rates.blade.php    # Tax rates list
-│       ├── settings.blade.php     # Settings forms
-│       ├── profile.blade.php      # User profile
-│       ├── users.blade.php        # Users list
-│       ├── roles.blade.php        # Roles & permissions
-│       └── activity-log.blade.php # Activity log
+│       ├── dashboard/
+│       │   └── dashboard.blade.php
+│       ├── inventory/
+│       │   ├── products.blade.php
+│       │   ├── categories.blade.php
+│       │   ├── brands.blade.php
+│       │   ├── stock.blade.php
+│       │   ├── warehouses.blade.php
+│       │   └── stock-adjustments.blade.php
+│       ├── sales/
+│       │   ├── orders.blade.php
+│       │   ├── invoices.blade.php
+│       │   ├── returns.blade.php
+│       │   └── shipments.blade.php
+│       ├── purchases/
+│       │   ├── purchase-orders.blade.php
+│       │   └── suppliers.blade.php
+│       ├── people/
+│       │   └── customers.blade.php
+│       ├── finance/
+│       │   ├── expenses.blade.php
+│       │   ├── payments.blade.php
+│       │   ├── reports.blade.php
+│       │   └── tax-rates.blade.php
+│       └── system/
+│           ├── settings.blade.php
+│           ├── profile.blade.php
+│           ├── users.blade.php
+│           ├── roles.blade.php
+│           └── activity-log.blade.php
 ├── routes/
 │   └── web.php                # All panel routes
 ├── vite.config.js             # Vite + Laravel + Tailwind v4
