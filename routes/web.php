@@ -77,3 +77,23 @@ Route::get('/roles', function () {
 Route::get('/profile', function () {
     return view('profile');
 })->name('profile');
+
+Route::get('/warehouses', function () {
+    return view('warehouses');
+})->name('warehouses');
+
+Route::get('/stock-adjustments', function () {
+    return view('stock-adjustments');
+})->name('stock-adjustments');
+
+Route::get('/shipments', function () {
+    return view('shipments');
+})->name('shipments');
+
+Route::get('/tax-rates', function () {
+    return view('tax-rates');
+})->name('tax-rates');
+
+Route::get('/activity-log', function () {
+    return view('activity-log');
+})->name('activity-log');
