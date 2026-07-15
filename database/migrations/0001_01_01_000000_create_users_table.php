@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('role')->default('staff');
             $table->string('avatar')->nullable();
             $table->string('phone')->nullable();
-            $table->string('status')->default('active'); // active, inactive
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamp('last_login_at')->nullable();
             $table->timestamps();
         });
