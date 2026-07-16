@@ -9,6 +9,10 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [LoginController::class, 'store'])->name('login.store');
 });
 
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
+});
+
 Route::get('/dashboard', function () {
     return view('dashboard.dashboard');
 })->name('dashboard');
