@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,6 +16,7 @@
         }
     </style>
 </head>
+
 <body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
     <div class="w-full max-w-md">
         <div class="bg-white rounded-2xl shadow-lg p-8">
@@ -44,45 +46,31 @@
 
                 <div class="mb-5">
                     <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value="{{ old('email') }}"
-                        required
-                        autofocus
+                    <input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors outline-none"
-                        placeholder="you@example.com"
-                    >
+                        placeholder="you@example.com">
                 </div>
 
                 <div class="mb-5">
                     <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        required
+                    <input type="password" id="password" name="password" required
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors outline-none"
-                        placeholder="Enter your password"
-                    >
+                        placeholder="Enter your password">
                 </div>
 
 
-                <button
-                    type="submit"
-                    class="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors"
-                >
+                <button type="submit"
+                    class="cursor-pointer w-full bg-indigo-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors">
                     Sign In
                 </button>
             </form>
-
+{{--
             @if (Route::has('register'))
                 <p class="mt-6 text-center text-sm text-gray-600">
                     Don't have an account?
                     <a href="{{ route('register') }}" class="text-indigo-600 hover:text-indigo-500 font-medium">Sign up</a>
                 </p>
-            @endif
+            @endif --}}
         </div>
 
         <p class="text-center text-xs text-gray-400 mt-6">
@@ -90,4 +78,5 @@
         </p>
     </div>
 </body>
+
 </html>
