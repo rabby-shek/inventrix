@@ -3,6 +3,7 @@
 // Login Routes
 require __DIR__.'/auth.php';
 require __DIR__.'/dashboard.php';
+require __DIR__.'/system.php';
 
 use Illuminate\Support\Facades\Route;
 
@@ -76,9 +77,6 @@ Route::get('/roles', function () {
     return view('system.roles');
 })->name('roles');
 
-Route::get('/profile', function () {
-    return view('system.profile');
-})->name('profile');
 
 Route::get('/warehouses', function () {
     return view('inventory.warehouses');
