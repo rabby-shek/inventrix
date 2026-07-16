@@ -4,6 +4,7 @@
 require __DIR__.'/auth.php';
 require __DIR__.'/dashboard.php';
 require __DIR__.'/system.php';
+require __DIR__.'/inventory.php';
 
 use Illuminate\Support\Facades\Route;
 
@@ -21,9 +22,7 @@ Route::get('/products/create', function () {
     return view('inventory.add-product');
 })->name('products.create');
 
-Route::get('/categories', function () {
-    return view('inventory.categories');
-})->name('categories');
+
 
 Route::get('/brands', function () {
     return view('inventory.brands');

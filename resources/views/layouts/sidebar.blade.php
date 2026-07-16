@@ -18,7 +18,7 @@
             </li>
 
             <li>
-                <button class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors w-full text-left" data-toggle="inventory" data-tooltip="Inventory" data-active-route="{{ request()->routeIs('products') || request()->routeIs('categories') || request()->routeIs('brands') || request()->routeIs('stock') || request()->routeIs('warehouses') || request()->routeIs('stock-adjustments') ? '1' : '0' }}">
+                <button class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors w-full text-left" data-toggle="inventory" data-tooltip="Inventory" data-active-route="{{ request()->routeIs('products') || request()->routeIs('inventory.categories') || request()->routeIs('brands') || request()->routeIs('stock') || request()->routeIs('warehouses') || request()->routeIs('stock-adjustments') ? '1' : '0' }}">
                     <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
                     <span class="menu-text flex-1">Inventory</span>
                     <svg class="menu-arrow w-4 h-4 shrink-0 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
@@ -31,7 +31,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('categories') }}" class="submenu-item flex items-center gap-2 px-3 py-2 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-sm transition-colors {{ request()->routeIs('categories') ? '!text-indigo-600 !bg-indigo-50' : '' }}">
+                        <a href="{{ route('inventory.categories') }}" class="submenu-item flex items-center gap-2 px-3 py-2 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-sm transition-colors {{ request()->routeIs('inventory.categories') ? '!text-indigo-600 !bg-indigo-50' : '' }}">
                             <span class="w-1.5 h-1.5 bg-gray-300 rounded-full shrink-0"></span>
                             <span class="submenu-text">Categories</span>
                         </a>
