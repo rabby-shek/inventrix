@@ -131,7 +131,8 @@
 @section('modals')
 <div id="categoryModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
     <div class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm transition-opacity" onclick="closeCategoryModal()"></div>
-    <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-md transform transition-all">
+    <form class="relative bg-white rounded-2xl shadow-xl w-full max-w-md transform transition-all" action="{{ route('inventory.categories.store') }}" method="POST">
+        @csrf
         <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
             <div>
                 <h3 class="text-base font-semibold text-gray-900">Add New Category</h3>
@@ -143,18 +144,18 @@
         </div>
         <div class="px-5 py-5 space-y-4">
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Category Name <span class="text-red-500">*</span></label>
-                <input type="text" placeholder="e.g. Electronics" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-colors bg-white">
+                <label for="name" class="block text-sm font-medium text-gray-700 mb-1.5">Category Name <span class="text-red-500">*</span></label>
+                <input type="text" id="name" name="name" placeholder="e.g. Electronics" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-colors bg-white">
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Slug <span class="text-red-500">*</span></label>
-                <input type="text" placeholder="e.g. electronics" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-colors bg-white font-mono">
+                <label for="slug" class="block text-sm font-medium text-gray-700 mb-1.5">Slug <span class="text-red-500">*</span></label>
+                <input type="text" id="slug" name="slug" placeholder="e.g. electronics" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-colors bg-white font-mono">
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Description</label>
-                <textarea rows="2" placeholder="Brief description..." class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-colors bg-white resize-none"></textarea>
+                <label for="description" class="block text-sm font-medium text-gray-700 mb-1.5">Description</label>
+                <textarea id="description" name="description" rows="2" placeholder="Brief description..." class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-colors bg-white resize-none"></textarea>
             </div>
-            <div>
+            {{-- <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1.5">Parent Category</label>
                 <select class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-colors bg-white appearance-none">
                     <option value="">None (Top-level)</option>
@@ -163,7 +164,7 @@
                     <option>Clothing</option>
                     <option>Accessories</option>
                 </select>
-            </div>
+            </div> --}}
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1.5">Status</label>
                 <div class="flex items-center gap-3">
@@ -180,9 +181,9 @@
         </div>
         <div class="px-5 py-3 border-t border-gray-100 bg-gray-50 flex items-center justify-end gap-3 rounded-b-2xl">
             <button onclick="closeCategoryModal()" class="px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-white bg-white transition-colors cursor-pointer">Cancel</button>
-            <button class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors cursor-pointer">Create</button>
+            <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors cursor-pointer">Create</button>
         </div>
-    </div>
+    </form>
 </div>
 @endsection
 
