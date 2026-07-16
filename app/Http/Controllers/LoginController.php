@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+    public function create()
+    {
+        return view('welcome');
+    }
     public function store(LoginRequest $loginRequest)
     {
         if (!Auth::attempt(

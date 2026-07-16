@@ -1,10 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('login');
+// Login Routes
+Route::middleware('guest')->group(function () {
+    Route::get('/', [LoginController::class, 'create'])->name('login');
+    Route::post('/login', [LoginController::class, 'store'])->name('login.store');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard.dashboard');
