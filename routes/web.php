@@ -1,20 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LoginController;
-
 // Login Routes
-Route::middleware('guest')->group(function () {
-    Route::get('/', [LoginController::class, 'create'])->name('login');
-    Route::post('/login', [LoginController::class, 'store'])->name('login.store');
-});
+require __DIR__.'/auth.php';
+require __DIR__.'/dashboard.php';
 
-Route::middleware('auth')->group(function () {
-    Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
-    Route::get('/dashboard', function () {
-        return view('dashboard.dashboard');
-    })->name('dashboard');
-});
+use Illuminate\Support\Facades\Route;
+
+
+
+
 
 
 
