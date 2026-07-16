@@ -70,6 +70,19 @@
             display: none;
         }
 
+        .sidebar-collapsed [data-tooltip] {
+            position: relative;
+        }
+
+        #sidebarTooltip {
+            clip-path: polygon(0 50%, 8px calc(50% - 6px), 8px 0, 100% 0, 100% 100%, 8px 100%, 8px calc(50% + 6px));
+            padding-left: 16px;
+        }
+
+        .sidebar-collapsed [data-tooltip]::after {
+            content: none;
+        }
+
         .main-content-expanded {
             margin-left: 260px;
         }
@@ -84,6 +97,19 @@
 
         .topbar-collapsed {
             left: 72px;
+        }
+
+        .modal-blur #mainContent,
+        .modal-blur #topbar,
+        .modal-blur #sidebar {
+            filter: blur(6px);
+            transition: filter 0.3s ease;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .modal-blur {
+            overflow: hidden;
         }
 
         @media (max-width: 768px) {
@@ -186,7 +212,7 @@
                     <div
                         class="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm font-medium shadow-sm">
                         U</div>
-                    <span class="hidden sm:block text-sm font-medium">User</span>
+                    <span class="hidden sm:block text-sm font-medium">{{ auth()->user()->name?? "" }}</span>
                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
@@ -194,8 +220,8 @@
                 <div id="userDropdown"
                     class="hidden absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-200 z-50 overflow-hidden">
                     <div class="px-4 py-3 border-b border-gray-100 bg-gray-50">
-                        <p class="text-sm font-medium text-gray-900">{{ auth()->user()->name }}</p>
-                        <p class="text-xs text-gray-500 truncate">{{ auth()->user()->email }}</p>
+                        <p class="text-sm font-medium text-gray-900">{{ auth()->user()->name?? "" }}</p>
+                        <p class="text-xs text-gray-500 truncate">{{ auth()->user()->email?? "" }}</p>
                     </div>
                     <div class="py-1">
                         <a href="{{ route('system.profile') }}"
@@ -242,6 +268,8 @@
         </div>
     </div>
 
+    @yield('modals')
+
     @yield('footer-scripts')
 
     <script>
@@ -257,6 +285,7 @@
             const notifBtn = document.getElementById('notifBtn');
             const notifDropdown = document.getElementById('notifDropdown');
             const overlay = document.getElementById('sidebarOverlay');
+            const tooltipEl = document.getElementById('sidebarTooltip');
 
             let expanded = true;
 
@@ -269,6 +298,7 @@
                     topbar.classList.remove('topbar-collapsed');
                     topbar.classList.add('topbar-expanded');
                     toggleIcon.style.transform = 'rotate(0deg)';
+                    toggleBtn.setAttribute('data-tooltip', 'Collapse');
                 } else {
                     sidebar.classList.remove('sidebar-expanded');
                     sidebar.classList.add('sidebar-collapsed');
@@ -277,6 +307,7 @@
                     topbar.classList.remove('topbar-expanded');
                     topbar.classList.add('topbar-collapsed');
                     toggleIcon.style.transform = 'rotate(180deg)';
+                    toggleBtn.setAttribute('data-tooltip', 'Expand');
                 }
             }
 
@@ -345,8 +376,23 @@
                     toggleSubmenu(item, !currentlyOpen);
                 });
             });
+
+            document.querySelectorAll('[data-tooltip]').forEach(function (el) {
+                el.addEventListener('mouseenter', function () {
+                    if (!sidebar.classList.contains('sidebar-collapsed')) return;
+                    document.getElementById('sidebarTooltipText').textContent = el.getAttribute('data-tooltip');
+                    tooltipEl.classList.remove('hidden');
+                    var rect = el.getBoundingClientRect();
+                    tooltipEl.style.left = (rect.right + 12) + 'px';
+                    tooltipEl.style.top = (rect.top + rect.height / 2 - tooltipEl.offsetHeight / 2) + 'px';
+                });
+                el.addEventListener('mouseleave', function () {
+                    tooltipEl.classList.add('hidden');
+                });
+            });
         });
     </script>
+    <div id="sidebarTooltip" class="fixed hidden text-gray-900 text-sm font-medium pointer-events-none z-[9999]" style="padding: 8px 12px; background: #fff; border-radius: 8px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.15), 0 8px 10px -6px rgba(0,0,0,0.1); border: 1px solid #e5e7eb;"><span id="sidebarTooltipText"></span></div>
 </body>
 
 </html>

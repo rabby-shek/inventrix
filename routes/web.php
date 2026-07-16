@@ -17,6 +17,10 @@ Route::get('/products', function () {
     return view('inventory.products');
 })->name('products');
 
+Route::get('/products/create', function () {
+    return view('inventory.add-product');
+})->name('products.create');
+
 Route::get('/categories', function () {
     return view('inventory.categories');
 })->name('categories');
