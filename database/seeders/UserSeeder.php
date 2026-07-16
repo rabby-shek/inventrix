@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
             'email' => 'manager.inventrix@gmail.com',
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
-            'role' => 'staff',
+            'role' => 'manager',
         ]);
 
         User::create([
@@ -44,7 +44,7 @@ class UserSeeder extends Seeder
             'email' => 'viewer.inventrix@gmail.com',
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
-            'role' => 'staff',
+            'role' => 'viewer',
         ]);
     }
 }
