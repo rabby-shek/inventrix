@@ -63,8 +63,7 @@
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-600">0</td>
                             <td class="px-6 py-4">
-                                <span
-                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700">{{ $category->status }}</span>
+                                <x-status-badge :status="$category->status" />
                             </td>
 
                             <td class="px-6 py-4 text-right">
