@@ -13,6 +13,7 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
+
         // Validate the request data
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
@@ -20,6 +21,8 @@ class CategoryController extends Controller
             'description' => 'nullable|string',
             'status' => 'required|in:active,inactive',
         ]);
+
+
 
         // Create a new category using the validated data
         Category::create($validatedData);
