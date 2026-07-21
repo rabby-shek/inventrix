@@ -263,12 +263,14 @@
     </div>
 
     <div id="mainContent" class="pt-16 min-h-screen transition-all duration-300 main-content-expanded">
-        <div class="p-6">
+        <div class="px-6 py-8">
             @yield('content')
         </div>
     </div>
 
     @yield('modals')
+
+    <x-toast />
 
     @yield('footer-scripts')
 
