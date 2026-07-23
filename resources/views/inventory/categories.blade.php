@@ -12,7 +12,9 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
-                <svg id="searchSpinner" class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-indigo-500 animate-spin hidden" fill="none" viewBox="0 0 24 24">
+                <svg id="searchSpinner"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-indigo-500 animate-spin hidden"
+                    fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
                 </svg>
@@ -20,19 +22,20 @@
                     @if (request('status'))
                         <input type="hidden" name="status" value="{{ request('status') }}">
                     @endif
-                    <input id="searchInput" type="text" name="search" value="{{ request('search') }}" autocomplete="off" placeholder="Search categories..."
+                    <input id="searchInput" type="text" name="search" value="{{ request('search') }}" autocomplete="off"
+                        placeholder="Search categories..."
                         class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-colors bg-white">
                 </form>
             </div>
             <div class="flex items-center gap-2">
                 <a href="{{ route('inventory.categories', array_merge(request()->query(), ['status' => 'active'])) }}"
                     class="px-4 py-2 rounded-lg text-sm font-medium transition-colors border
-                        {{ request('status') === 'active' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-100' }}">
+                            {{ request('status') === 'active' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-100' }}">
                     Active
                 </a>
                 <a href="{{ route('inventory.categories', array_merge(request()->query(), ['status' => 'inactive'])) }}"
                     class="px-4 py-2 rounded-lg text-sm font-medium transition-colors border
-                        {{ request('status') === 'inactive' ? 'bg-red-600 text-white border-red-600' : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-100' }}">
+                            {{ request('status') === 'inactive' ? 'bg-red-600 text-white border-red-600' : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-100' }}">
                     Inactive
                 </a>
                 @if (request('status') || request('search'))
@@ -64,7 +67,8 @@
         <div class="flex items-center gap-2">
             <button type="button" onclick="clearSelection()"
                 class="px-3 py-1.5 text-sm text-gray-600 hover:bg-white rounded-lg transition-colors cursor-pointer">Cancel</button>
-            <button type="button" onclick="prepareBulkForm(); bulkConfirmModal.open(function() { document.getElementById('bulkDeleteForm').submit(); })"
+            <button type="button"
+                onclick="prepareBulkForm(); bulkConfirmModal.open(function() { document.getElementById('bulkDeleteForm').submit(); })"
                 class="flex items-center gap-1.5 px-4 py-1.5 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors cursor-pointer">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -89,7 +93,8 @@
                 <p class="text-sm text-gray-500 mb-6 text-center max-w-sm">
                     @if (request('search') || request('status'))
                         No categories match your current filters. Try adjusting your search or
-                        <a href="{{ route('inventory.categories') }}" class="text-indigo-600 hover:text-indigo-700 font-medium">clear filters</a>.
+                        <a href="{{ route('inventory.categories') }}"
+                            class="text-indigo-600 hover:text-indigo-700 font-medium">clear filters</a>.
                     @else
                         Get started by creating your first product category to organize your inventory.
                     @endif
@@ -106,97 +111,99 @@
             </div>
         </div>
     @else
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div class="overflow-x-auto">
-            <table class="w-full">
-                <thead>
-                    <tr class="bg-gray-50 border-b border-gray-100">
-                        <th class="w-12 px-6 py-4">
-                            <input type="checkbox" id="selectAll"
-                                class="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer">
-                        </th>
-                        <th class="text-left px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Name
-                        </th>
-                        <th class="text-left px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Slug
-                        </th>
-                        <th class="text-left px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                            Products</th>
-                        <th class="text-left px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status
-                        </th>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-gray-50 border-b border-gray-100">
+                            <th class="w-12 px-6 py-4">
+                                <input type="checkbox" id="selectAll"
+                                    class="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer">
+                            </th>
+                            <th class="text-left px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Name
+                            </th>
+                            <th class="text-left px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Slug
+                            </th>
+                            <th class="text-left px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                Products</th>
+                            <th class="text-left px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status
+                            </th>
 
-                        <th class="text-right px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                            Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-100">
-                    @foreach ($categories as $category)
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4">
-                                <input type="checkbox" name="ids[]" value="{{ $category->id }}"
-                                    class="row-checkbox w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer">
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="flex items-center gap-3">
-                                    <div
-                                        class="w-10 h-10 uppercase bg-indigo-50 rounded-lg flex items-center justify-center text-indigo-600 text-sm font-bold shrink-0">
-                                        {{ substr($category->name, 0,1) }}</div>
-                                    <div>
-                                        <p class="text-sm font-medium text-gray-900">{{ $category->name }}</p>
-
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-sm text-gray-600">
-                                <p class="text-sm font-medium text-gray-900">{{ $category->slug }}</p>
-                            </td>
-                            <td class="px-6 py-4 text-sm text-gray-600">0</td>
-                            <td class="px-6 py-4">
-                                <x-status-badge :status="$category->status" />
-                            </td>
-
-                            <td class="px-6 py-4 text-right">
-                                <div class="flex items-center justify-end gap-1">
-                                    <button
-                                    type="button"
-                                        onclick='openCategoryModal("{{ route('inventory.categories.update', $category) }}", "{{ $category->name }}", "{{ $category->slug }}", "{{ $category->description }}", "{{ $category->status }}", true)'
-                                        class="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                        </svg>
-                                    </button>
-                                    <button
-                                    type="button"
-                                        onclick="confirmModal.open(function() { document.getElementById('delete-category-{{ $category->id }}').submit(); })"
-                                        class="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                        </svg>
-                                    </button>
-                                    <form id="delete-category-{{ $category->id }}" action="{{ route('inventory.categories.destroy', $category) }}" method="POST" class="hidden">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
-                                </div>
-                            </td>
+                            <th class="text-right px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                Actions</th>
                         </tr>
-                    @endforeach
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        @foreach ($categories as $category)
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4">
+                                    <input type="checkbox" name="ids[]" value="{{ $category->id }}"
+                                        class="row-checkbox w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer">
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="w-10 h-10 uppercase bg-indigo-50 rounded-lg flex items-center justify-center text-indigo-600 text-sm font-bold shrink-0">
+                                            {{ substr($category->name, 0, 1) }}
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-900">{{ $category->name }}</p>
+
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-600">
+                                    <p class="text-sm font-medium text-gray-900">{{ $category->slug }}</p>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-600">0</td>
+                                <td class="px-6 py-4">
+                                    <x-status-badge :status="$category->status" />
+                                </td>
+
+                                <td class="px-6 py-4 text-right">
+                                    <div class="flex items-center justify-end gap-1">
+                                        <button type="button"
+                                            onclick='openCategoryModal("{{ route('inventory.categories.update', $category) }}", "{{ $category->name }}", "{{ $category->slug }}", "{{ $category->description }}", "{{ $category->status }}", true)'
+                                            class="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                            </svg>
+                                        </button>
+                                        <button type="button"
+                                            onclick="confirmModal.open(function() { document.getElementById('delete-category-{{ $category->id }}').submit(); })"
+                                            class="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                        </button>
+                                        <form id="delete-category-{{ $category->id }}"
+                                            action="{{ route('inventory.categories.destroy', $category) }}" method="POST"
+                                            class="hidden">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
 
 
-                </tbody>
-            </table>
-        </div>
+                    </tbody>
+                </table>
+            </div>
 
-        <div class="flex items-center justify-between px-6 py-4 border-t border-gray-100 bg-gray-50">
-            <p class="text-sm text-gray-500">
-                Showing {{ $categories->firstItem() }}-{{ $categories->lastItem() }} of {{ $categories->total() }} categories
-            </p>
-            <div class="flex items-center gap-2">
-                {{ $categories->links() }}
+            <div class="flex items-center justify-between px-6 py-4 border-t border-gray-100 bg-gray-50">
+                <p class="text-sm text-gray-500">
+                    Showing {{ $categories->firstItem() }}-{{ $categories->lastItem() }} of {{ $categories->total() }}
+                    categories
+                </p>
+                <div class="flex items-center gap-2">
+                    {{ $categories->links() }}
+                </div>
             </div>
         </div>
-    </div>
     @endif
 
 
@@ -205,23 +212,13 @@
 {{-- Category Modal --}}
 
 @section('modals')
-    <x-confirm-modal
-        id="confirmModal"
-        title="Delete Category"
-        message="Are you sure you want to delete this category? This action cannot be undone."
-        confirmText="Delete"
-        cancelText="Cancel"
-        type="danger"
-    />
+    <x-confirm-modal id="confirmModal" title="Delete Category"
+        message="Are you sure you want to delete this category? This action cannot be undone." confirmText="Delete"
+        cancelText="Cancel" type="danger" />
 
-    <x-confirm-modal
-        id="bulkConfirmModal"
-        title="Delete Categories"
+    <x-confirm-modal id="bulkConfirmModal" title="Delete Categories"
         message="Are you sure you want to delete the selected categories? This action cannot be undone."
-        confirmText="Delete All"
-        cancelText="Cancel"
-        type="danger"
-    />
+        confirmText="Delete All" cancelText="Cancel" type="danger" />
 
     <form id="bulkDeleteForm" action="{{ route('inventory.categories.bulkDelete') }}" method="POST" class="hidden">
         @csrf

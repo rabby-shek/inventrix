@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Models\Category;
 
@@ -11,7 +12,7 @@ class CategoryController extends Controller
         $categories = Category::query()
             ->when($request->search, function ($query, $search) {
                 $query->where('name', 'like', "%{$search}%")
-                      ->orWhere('slug', 'like', "%{$search}%");
+                    ->orWhere('slug', 'like', "%{$search}%");
             })
             ->when($request->status, function ($query, $status) {
                 $query->where('status', $status);
@@ -40,7 +41,6 @@ class CategoryController extends Controller
 
         // Redirect back with a success message
         return redirect()->route('inventory.categories')->with('success', 'Category created successfully.');
-
     }
 
     public function update(Request $request, Category $category)
