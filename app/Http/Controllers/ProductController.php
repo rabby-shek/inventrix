@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -11,12 +12,10 @@ class ProductController extends Controller
         return view('inventory.products');
     }
 
-    public function store()
+    public function store() {}
+
+    public function add()
     {
-
-    }
-
-    public function add() {
-        return view('inventory.add-product');
+        return view('inventory.add-product')->with('categories', Category::where('status', 'active')->get());
     }
 }
