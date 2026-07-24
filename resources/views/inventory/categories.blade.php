@@ -30,12 +30,12 @@
             <div class="flex items-center gap-2">
                 <a href="{{ route('inventory.categories', array_merge(request()->query(), ['status' => 'active'])) }}"
                     class="px-4 py-2 rounded-lg text-sm font-medium transition-colors border
-                            {{ request('status') === 'active' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-100' }}">
+                                    {{ request('status') === 'active' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-100' }}">
                     Active
                 </a>
                 <a href="{{ route('inventory.categories', array_merge(request()->query(), ['status' => 'inactive'])) }}"
                     class="px-4 py-2 rounded-lg text-sm font-medium transition-colors border
-                            {{ request('status') === 'inactive' ? 'bg-red-600 text-white border-red-600' : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-100' }}">
+                                    {{ request('status') === 'inactive' ? 'bg-red-600 text-white border-red-600' : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-100' }}">
                     Inactive
                 </a>
                 @if (request('status') || request('search'))
