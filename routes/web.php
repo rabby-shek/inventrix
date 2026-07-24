@@ -14,24 +14,6 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/products', function () {
-    return view('inventory.products');
-})->name('products');
-
-Route::get('/products/create', function () {
-    return view('inventory.add-product');
-})->name('products.create');
-
-
-
-Route::get('/brands', function () {
-    return view('inventory.brands');
-})->name('brands');
-
-Route::get('/stock', function () {
-    return view('inventory.stock');
-})->name('stock');
-
 Route::get('/orders', function () {
     return view('sales.orders');
 })->name('orders');
@@ -80,14 +62,6 @@ Route::get('/roles', function () {
     return view('system.roles');
 })->name('roles');
 
-
-Route::get('/warehouses', function () {
-    return view('inventory.warehouses');
-})->name('warehouses');
-
-Route::get('/stock-adjustments', function () {
-    return view('inventory.stock-adjustments');
-})->name('stock-adjustments');
 
 Route::get('/shipments', function () {
     return view('sales.shipments');
