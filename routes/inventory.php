@@ -27,6 +27,7 @@ Route::middleware('auth')->prefix('inventory')->name('inventory.')->group(functi
         ->group(function () {
             Route::get('/', 'index');
             Route::get('/add', 'add')->name('.add');
+            Route::get('/{product}', 'show')->name('.show');
             Route::get('/{product}/edit', 'edit')->name('.edit');
             Route::post('/', 'store')->name('.store');
             Route::put('/{product}', 'update')->name('.update');
@@ -50,6 +51,7 @@ Route::middleware('auth')->prefix('inventory')->name('inventory.')->group(functi
         ->name('warehouses')
         ->group(function () {
             Route::get('/', 'index');
+            Route::get('/{warehouse}', 'show')->name('.show');
             Route::post('/', 'store')->name('.store');
             Route::put('/{warehouse}', 'update')->name('.update');
             Route::delete('/{warehouse}', 'destroy')->name('.destroy');

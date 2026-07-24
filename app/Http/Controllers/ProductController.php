@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Brands;
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -33,7 +33,7 @@ class ProductController extends Controller
     public function add()
     {
         $categories = Category::latest()->get();
-        $brands = Brands::latest()->get();
+        $brands = Brand::latest()->get();
         return view('inventory.add-product', compact('categories', 'brands'));
     }
 
@@ -61,10 +61,25 @@ class ProductController extends Controller
         return redirect()->route('inventory.products')->with('success', 'Product added successfully!');
     }
 
+    public function show(Product $product)
+    {
+        $product->load(['category', 'brand', 'stockItems.warehouse']);
+
+        $recentAdjustments = $product->adjustments()
+            ->with(['warehouse', 'toWarehouse'])
+            ->latest()
+            ->paginate(5);
+
+        $totalStock = $product->stockItems->sum('quantity');
+        $lowStockCount = $product->stockItems->filter(fn($item) => $item->quantity <= ($product->min_stock ?? 0))->count();
+
+        return view('inventory.product-details', compact('product', 'recentAdjustments', 'totalStock', 'lowStockCount'));
+    }
+
     public function edit(Product $product)
     {
         $categories = Category::latest()->get();
-        $brands = Brands::latest()->get();
+        $brands = Brand::latest()->get();
         return view('inventory.add-product', compact('product', 'categories', 'brands'));
     }
 

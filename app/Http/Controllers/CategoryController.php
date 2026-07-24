@@ -10,6 +10,7 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $categories = Category::query()
+            ->withCount('products')
             ->when($request->search, function ($query, $search) {
                 $query->where('name', 'like', "%{$search}%")
                     ->orWhere('slug', 'like', "%{$search}%");

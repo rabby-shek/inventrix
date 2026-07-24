@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Brands extends Model
+class Brand extends Model
 {
     protected $fillable = [
         'name',
@@ -16,6 +16,6 @@ class Brands extends Model
 
     public function products()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Product::class, 'brand_id');
     }
 }

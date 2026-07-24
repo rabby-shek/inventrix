@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Brands;
+use App\Models\Brand;
 
 class BrandController extends Controller
 {
     public function index(Request $request)
     {
-        $brands = Brands::query()
+        $brands = Brand::query()
+            ->withCount('products')
             ->when($request->search, function ($query, $search) {
                 $query->where('name', 'like', "%{$search}%")
                     ->orWhere('slug', 'like', "%{$search}%");
@@ -33,12 +34,12 @@ class BrandController extends Controller
             'status' => 'required|in:active,inactive',
         ]);
 
-        Brands::create($validatedData);
+        Brand::create($validatedData);
 
         return redirect()->route('inventory.brands')->with('success', 'Brand created successfully.');
     }
 
-    public function update(Request $request, Brands $brand)
+    public function update(Request $request, Brand $brand)
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
@@ -53,7 +54,7 @@ class BrandController extends Controller
         return redirect()->route('inventory.brands')->with('success', 'Brand updated successfully.');
     }
 
-    public function destroy(Brands $brand)
+    public function destroy(Brand $brand)
     {
         $brand->delete();
         return redirect()->route('inventory.brands')->with('success', 'Brand deleted successfully.');
@@ -63,7 +64,7 @@ class BrandController extends Controller
     {
         $request->validate(['ids' => 'required|array', 'ids.*' => 'integer|exists:brands,id']);
 
-        Brands::whereIn('id', $request->ids)->delete();
+        Brand::whereIn('id', $request->ids)->delete();
 
         return redirect()->route('inventory.brands')->with('success', count($request->ids) . ' brand' . (count($request->ids) === 1 ? '' : 's') . ' deleted successfully.');
     }

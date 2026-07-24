@@ -155,7 +155,7 @@
                                 <td class="px-6 py-4 text-sm text-gray-600">
                                     <p class="text-sm font-medium text-gray-900">{{ $category->slug }}</p>
                                 </td>
-                                <td class="px-6 py-4 text-sm text-gray-600">0</td>
+                                <td class="px-6 py-4 text-sm text-gray-600">{{ $category->products_count }}</td>
                                 <td class="px-6 py-4">
                                     <x-status-badge :status="$category->status" />
                                 </td>

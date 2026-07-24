@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Warehouse;
+use App\Models\StockAdjustment;
 use Illuminate\Http\Request;
 
 class WarehouseController extends Controller
@@ -30,6 +31,28 @@ class WarehouseController extends Controller
         $stats['available'] = $stats['capacity'] - $stats['occupied'];
 
         return view('inventory.warehouses', compact('warehouses', 'stats'));
+    }
+
+    public function show(Warehouse $warehouse)
+    {
+        $warehouse->load(['stockItems.product']);
+
+        $stockItems = $warehouse->stockItems()->with('product')->get();
+
+        $recentAdjustments = StockAdjustment::where('warehouse_id', $warehouse->id)
+            ->orWhere('to_warehouse_id', $warehouse->id)
+            ->with(['product', 'warehouse', 'toWarehouse'])
+            ->latest()
+            ->paginate(10);
+
+        $stats = [
+            'total_products' => $stockItems->count(),
+            'total_units'    => $stockItems->sum('quantity'),
+            'low_stock'      => $stockItems->filter(fn($item) => $item->quantity > 0 && $item->quantity <= ($item->min_stock ?? 0))->count(),
+            'out_of_stock'   => $stockItems->filter(fn($item) => $item->quantity == 0)->count(),
+        ];
+
+        return view('inventory.warehouse-details', compact('warehouse', 'stockItems', 'recentAdjustments', 'stats'));
     }
 
     public function store(Request $request)

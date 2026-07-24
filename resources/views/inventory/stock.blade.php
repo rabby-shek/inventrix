@@ -45,18 +45,53 @@
 
 <div class="flex items-center justify-between mb-6">
     <div class="flex items-center gap-4 flex-1">
-        <form method="GET" action="{{ route('inventory.stock') }}" class="relative flex-1 max-w-md">
-            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Search stock..." class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-colors bg-white">
-        </form>
+        <div class="relative flex-1 max-w-md">
+            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <svg id="searchSpinner"
+                class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-indigo-500 animate-spin hidden"
+                fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+            </svg>
+            <form id="searchForm" method="GET" action="{{ route('inventory.stock') }}">
+                @if (request('status'))
+                    <input type="hidden" name="status" value="{{ request('status') }}">
+                @endif
+                <input id="searchInput" type="text" name="search" value="{{ request('search') }}" autocomplete="off"
+                    placeholder="Search by product name or SKU..."
+                    class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-colors bg-white">
+            </form>
+        </div>
         <div class="flex items-center gap-2">
-            <a href="{{ route('inventory.stock') }}" class="px-4 py-2.5 {{ !request('status') ? 'border border-gray-300 text-gray-700 bg-white' : 'border border-transparent text-gray-500 bg-transparent' }} rounded-lg text-sm hover:bg-gray-50 transition-colors">All Stock</a>
-            <a href="{{ route('inventory.stock', ['status' => 'low_stock']) }}" class="px-4 py-2.5 {{ request('status') === 'low_stock' ? 'border border-gray-300 text-gray-700 bg-white' : 'border border-transparent text-gray-500 bg-transparent' }} rounded-lg text-sm hover:bg-gray-50 transition-colors">Low Stock</a>
-            <a href="{{ route('inventory.stock', ['status' => 'out_of_stock']) }}" class="px-4 py-2.5 {{ request('status') === 'out_of_stock' ? 'border border-gray-300 text-gray-700 bg-white' : 'border border-transparent text-gray-500 bg-transparent' }} rounded-lg text-sm hover:bg-gray-50 transition-colors">Out of Stock</a>
+            <a href="{{ route('inventory.stock', array_merge(request()->query(), ['status' => 'in_stock'])) }}"
+                class="px-4 py-2 rounded-lg text-sm font-medium transition-colors border
+                                {{ request('status') === 'in_stock' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-100' }}">
+                In Stock
+            </a>
+            <a href="{{ route('inventory.stock', array_merge(request()->query(), ['status' => 'low_stock'])) }}"
+                class="px-4 py-2 rounded-lg text-sm font-medium transition-colors border
+                                {{ request('status') === 'low_stock' ? 'bg-amber-600 text-white border-amber-600' : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-100' }}">
+                Low Stock
+            </a>
+            <a href="{{ route('inventory.stock', array_merge(request()->query(), ['status' => 'out_of_stock'])) }}"
+                class="px-4 py-2 rounded-lg text-sm font-medium transition-colors border
+                                {{ request('status') === 'out_of_stock' ? 'bg-red-600 text-white border-red-600' : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-100' }}">
+                Out of Stock
+            </a>
+            @if (request('status') || request('search'))
+                <a href="{{ route('inventory.stock') }}"
+                    class="px-4 py-2 rounded-lg text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors">
+                    Clear
+                </a>
+            @endif
         </div>
     </div>
     <button onclick="document.getElementById('addStockModal').classList.remove('hidden')" class="flex items-center gap-2 px-5 py-2.5 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors shadow-sm">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
         Add Stock
     </button>
 </div>
@@ -168,10 +203,10 @@
             <div class="px-6 py-6 space-y-4 overflow-y-auto flex-1">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Product <span class="text-red-500">*</span></label>
-                    <select name="product_id" required class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none bg-white appearance-none">
+                    <select name="product_id" id="add_stock_product" required class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none bg-white appearance-none" onchange="autoFillMinStock(this, 'add_stock_min')">
                         <option value="">Select product</option>
                         @foreach(\App\Models\Product::orderBy('name')->get() as $product)
-                            <option value="{{ $product->id }}">{{ $product->name }} ({{ $product->sku }})</option>
+                            <option value="{{ $product->id }}" data-min-stock="{{ $product->min_stock ?? 0 }}">{{ $product->name }} ({{ $product->sku }})</option>
                         @endforeach
                     </select>
                 </div>
@@ -191,7 +226,7 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Min Stock <span class="text-red-500">*</span></label>
-                        <input type="number" name="min_stock" min="0" value="0" required class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none bg-white">
+                        <input type="number" name="min_stock" id="add_stock_min" min="0" value="0" required class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none bg-white">
                     </div>
                 </div>
             </div>
@@ -233,11 +268,34 @@
 
 @section('footer-scripts')
 <script>
+function autoFillMinStock(select, targetId) {
+    var selected = select.options[select.selectedIndex];
+    var minStock = selected.getAttribute('data-min-stock');
+    if (minStock !== null) {
+        document.getElementById(targetId).value = minStock;
+    }
+}
+
 function editStock(id, quantity, minStock) {
     document.getElementById('editStockForm').action = '{{ url("inventory/stock") }}/' + id;
     document.getElementById('edit_stock_quantity').value = quantity;
     document.getElementById('edit_stock_min').value = minStock;
     document.getElementById('editStockModal').classList.remove('hidden');
 }
+
+(function () {
+    var searchInput = document.getElementById('searchInput');
+    var searchForm = document.getElementById('searchForm');
+    var spinner = document.getElementById('searchSpinner');
+    var timer;
+
+    searchInput.addEventListener('input', function () {
+        clearTimeout(timer);
+        spinner.classList.remove('hidden');
+        timer = setTimeout(function () {
+            searchForm.submit();
+        }, 400);
+    });
+})();
 </script>
 @endsection

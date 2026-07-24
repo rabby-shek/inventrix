@@ -5,11 +5,51 @@
 
 @section('content')
 <div class="flex items-center justify-between mb-6">
-    <div class="relative flex-1 max-w-md">
-        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-        <form method="GET" action="{{ route('inventory.warehouses') }}">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Search warehouses..." class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-colors bg-white">
-        </form>
+    <div class="flex items-center gap-4 flex-1">
+        <div class="relative flex-1 max-w-md">
+            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <svg id="searchSpinner"
+                class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-indigo-500 animate-spin hidden"
+                fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+            </svg>
+            <form id="searchForm" method="GET" action="{{ route('inventory.warehouses') }}">
+                @if (request('status'))
+                    <input type="hidden" name="status" value="{{ request('status') }}">
+                @endif
+                <input id="searchInput" type="text" name="search" value="{{ request('search') }}" autocomplete="off"
+                    placeholder="Search warehouses..."
+                    class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-colors bg-white">
+            </form>
+        </div>
+        <div class="flex items-center gap-2">
+            <a href="{{ route('inventory.warehouses', array_merge(request()->query(), ['status' => 'active'])) }}"
+                class="px-4 py-2 rounded-lg text-sm font-medium transition-colors border
+                                {{ request('status') === 'active' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-100' }}">
+                Active
+            </a>
+            <a href="{{ route('inventory.warehouses', array_merge(request()->query(), ['status' => 'inactive'])) }}"
+                class="px-4 py-2 rounded-lg text-sm font-medium transition-colors border
+                                {{ request('status') === 'inactive' ? 'bg-red-600 text-white border-red-600' : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-100' }}">
+                Inactive
+            </a>
+            <a href="{{ route('inventory.warehouses', array_merge(request()->query(), ['status' => 'maintenance'])) }}"
+                class="px-4 py-2 rounded-lg text-sm font-medium transition-colors border
+                                {{ request('status') === 'maintenance' ? 'bg-amber-600 text-white border-amber-600' : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-100' }}">
+                Maintenance
+            </a>
+            @if (request('status') || request('search'))
+                <a href="{{ route('inventory.warehouses') }}"
+                    class="px-4 py-2 rounded-lg text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors">
+                    Clear
+                </a>
+            @endif
+        </div>
     </div>
     <button onclick="document.getElementById('addWarehouseModal').classList.remove('hidden')" class="flex items-center gap-2 px-5 py-2.5 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors shadow-sm">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
@@ -74,7 +114,9 @@
                         </div>
                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-{{ $warehouse->status === 'active' ? 'green' : ($warehouse->status === 'maintenance' ? 'amber' : 'gray') }}-100 text-{{ $warehouse->status === 'active' ? 'green' : ($warehouse->status === 'maintenance' ? 'amber' : 'gray') }}-700">{{ ucfirst($warehouse->status) }}</span>
                     </div>
-                    <h3 class="text-lg font-semibold text-gray-900">{{ $warehouse->name }}</h3>
+                    <h3 class="text-lg font-semibold text-gray-900">
+                        <a href="{{ route('inventory.warehouses.show', $warehouse) }}" class="hover:text-indigo-600 transition-colors">{{ $warehouse->name }}</a>
+                    </h3>
                     <p class="text-sm text-gray-500 mt-1">{{ $warehouse->address }}</p>
                     <div class="mt-4 flex items-center justify-between text-sm">
                         <span class="text-gray-500">Capacity: <span class="font-medium text-gray-900">{{ number_format($warehouse->capacity ?? 0) }}</span></span>
@@ -86,6 +128,9 @@
                     <div class="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between text-sm">
                         <span class="text-gray-500">Manager: <span class="text-gray-700 font-medium">{{ $warehouse->manager ?: 'N/A' }}</span></span>
                         <div class="flex gap-1">
+                            <a href="{{ route('inventory.warehouses.show', $warehouse) }}" class="p-1.5 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors" title="View Details">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                            </a>
                             <button onclick="editWarehouse({{ $warehouse->id }}, '{{ addslashes($warehouse->name) }}', '{{ addslashes($warehouse->address) }}', {{ $warehouse->capacity ?? 'null' }}, '{{ addslashes($warehouse->manager ?? '') }}', '{{ $warehouse->status }}')" class="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors" title="Edit">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                             </button>
@@ -208,5 +253,20 @@ function editWarehouse(id, name, address, capacity, manager, status) {
     document.getElementById('edit_status').value = status;
     document.getElementById('editWarehouseModal').classList.remove('hidden');
 }
+
+(function () {
+    var searchInput = document.getElementById('searchInput');
+    var searchForm = document.getElementById('searchForm');
+    var spinner = document.getElementById('searchSpinner');
+    var timer;
+
+    searchInput.addEventListener('input', function () {
+        clearTimeout(timer);
+        spinner.classList.remove('hidden');
+        timer = setTimeout(function () {
+            searchForm.submit();
+        }, 400);
+    });
+})();
 </script>
 @endsection

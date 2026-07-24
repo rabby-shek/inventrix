@@ -6,17 +6,55 @@
 @section('content')
 <div class="flex items-center justify-between mb-6">
     <div class="flex items-center gap-3">
-        <a href="{{ route('inventory.stock-adjustments') }}" class="px-4 py-2.5 {{ !request('type') ? 'bg-indigo-600 text-white shadow-sm' : 'border border-gray-300 text-gray-600 bg-white hover:bg-gray-50' }} rounded-lg text-sm font-medium transition-colors">All Adjustments</a>
-        <a href="{{ route('inventory.stock-adjustments', ['type' => 'addition']) }}" class="px-4 py-2.5 {{ request('type') === 'addition' ? 'bg-indigo-600 text-white shadow-sm' : 'border border-gray-300 text-gray-600 bg-white hover:bg-gray-50' }} rounded-lg text-sm font-medium transition-colors">Additions</a>
-        <a href="{{ route('inventory.stock-adjustments', ['type' => 'deduction']) }}" class="px-4 py-2.5 {{ request('type') === 'deduction' ? 'bg-indigo-600 text-white shadow-sm' : 'border border-gray-300 text-gray-600 bg-white hover:bg-gray-50' }} rounded-lg text-sm font-medium transition-colors">Deductions</a>
-        <a href="{{ route('inventory.stock-adjustments', ['type' => 'transfer']) }}" class="px-4 py-2.5 {{ request('type') === 'transfer' ? 'bg-indigo-600 text-white shadow-sm' : 'border border-gray-300 text-gray-600 bg-white hover:bg-gray-50' }} rounded-lg text-sm font-medium transition-colors">Transfers</a>
+        <a href="{{ route('inventory.stock-adjustments', array_merge(request()->query(), ['type' => ''])) }}"
+            class="px-4 py-2 rounded-lg text-sm font-medium transition-colors border
+                            {{ !request('type') ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-100' }}">
+            All
+        </a>
+        <a href="{{ route('inventory.stock-adjustments', array_merge(request()->query(), ['type' => 'addition'])) }}"
+            class="px-4 py-2 rounded-lg text-sm font-medium transition-colors border
+                            {{ request('type') === 'addition' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-100' }}">
+            Additions
+        </a>
+        <a href="{{ route('inventory.stock-adjustments', array_merge(request()->query(), ['type' => 'deduction'])) }}"
+            class="px-4 py-2 rounded-lg text-sm font-medium transition-colors border
+                            {{ request('type') === 'deduction' ? 'bg-red-600 text-white border-red-600' : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-100' }}">
+            Deductions
+        </a>
+        <a href="{{ route('inventory.stock-adjustments', array_merge(request()->query(), ['type' => 'transfer'])) }}"
+            class="px-4 py-2 rounded-lg text-sm font-medium transition-colors border
+                            {{ request('type') === 'transfer' ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-100' }}">
+            Transfers
+        </a>
+        @if (request('type') || request('search'))
+            <a href="{{ route('inventory.stock-adjustments') }}"
+                class="px-4 py-2 rounded-lg text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors">
+                Clear
+            </a>
+        @endif
     </div>
     <div class="flex items-center gap-3">
-        <form method="GET" action="{{ route('inventory.stock-adjustments') }}" class="relative">
-            @if(request('type'))<input type="hidden" name="type" value="{{ request('type') }}">@endif
-            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Search adjustments..." class="pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-colors bg-white w-64">
-        </form>
+        <div class="relative">
+            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <svg id="searchSpinner"
+                class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-indigo-500 animate-spin hidden"
+                fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+            </svg>
+            <form id="searchForm" method="GET" action="{{ route('inventory.stock-adjustments') }}">
+                @if (request('type'))
+                    <input type="hidden" name="type" value="{{ request('type') }}">
+                @endif
+                <input id="searchInput" type="text" name="search" value="{{ request('search') }}" autocomplete="off"
+                    placeholder="Search by reference, product, or reason..."
+                    class="pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-colors bg-white w-72">
+            </form>
+        </div>
         <button onclick="document.getElementById('addAdjustmentModal').classList.remove('hidden')" class="flex items-center gap-2 px-5 py-2.5 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors shadow-sm">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
             New Adjustment
@@ -208,5 +246,20 @@ function toggleToWarehouse() {
         label.textContent = 'Warehouse';
     }
 }
+
+(function () {
+    var searchInput = document.getElementById('searchInput');
+    var searchForm = document.getElementById('searchForm');
+    var spinner = document.getElementById('searchSpinner');
+    var timer;
+
+    searchInput.addEventListener('input', function () {
+        clearTimeout(timer);
+        spinner.classList.remove('hidden');
+        timer = setTimeout(function () {
+            searchForm.submit();
+        }, 400);
+    });
+})();
 </script>
 @endsection
