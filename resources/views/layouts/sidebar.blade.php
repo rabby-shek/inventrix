@@ -169,7 +169,7 @@
                 <button
                     class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors w-full text-left"
                     data-toggle="people" data-tooltip="People"
-                    data-active-route="{{ request()->routeIs('customers') || request()->routeIs('suppliers') ? '1' : '0' }}">
+                    data-active-route="{{ request()->routeIs('people.customers') || request()->routeIs('suppliers') ? '1' : '0' }}">
                     <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -182,8 +182,8 @@
                 </button>
                 <ul class="sidebar-submenu ml-5 mt-1 space-y-1">
                     <li>
-                        <a href="{{ route('customers') }}"
-                            class="submenu-item flex items-center gap-2 px-3 py-2 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-sm transition-colors {{ request()->routeIs('customers') ? '!text-indigo-600 !bg-indigo-50' : '' }}">
+                        <a href="{{ route('people.customers') }}"
+                            class="submenu-item flex items-center gap-2 px-3 py-2 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-900 text-sm transition-colors {{ request()->routeIs('people.customers') ? '!text-indigo-600 !bg-indigo-50' : '' }}">
                             <span class="w-1.5 h-1.5 bg-gray-300 rounded-full shrink-0"></span>
                             <span class="submenu-text">Customers</span>
                         </a>

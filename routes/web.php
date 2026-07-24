@@ -1,10 +1,11 @@
 <?php
 
 // Login Routes
-require __DIR__.'/auth.php';
-require __DIR__.'/dashboard.php';
-require __DIR__.'/system.php';
-require __DIR__.'/inventory.php';
+require __DIR__ . '/auth.php';
+require __DIR__ . '/dashboard.php';
+require __DIR__ . '/system.php';
+require __DIR__ . '/inventory.php';
+require __DIR__ . '/people.php';
 
 use Illuminate\Support\Facades\Route;
 
@@ -34,9 +35,7 @@ Route::get('/suppliers', function () {
     return view('purchases.suppliers');
 })->name('suppliers');
 
-Route::get('/customers', function () {
-    return view('people.customers');
-})->name('customers');
+
 
 Route::get('/expenses', function () {
     return view('finance.expenses');
