@@ -19,6 +19,10 @@ Route::get('/orders', function () {
     return view('sales.orders');
 })->name('orders');
 
+Route::get('/orders/new', function () {
+    return view('sales.create-order');
+})->name('orders.create');
+
 Route::get('/invoices', function () {
     return view('sales.invoices');
 })->name('invoices');

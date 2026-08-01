@@ -4,10 +4,10 @@
 @section('page-title', 'Customers')
 
 @section('modals')
-    <div id="categoryModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div id="customerModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
 
-        <div class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm transition-opacity" onclick="closeCategoryModal()"></div>
-        <form id="categoryForm" class="relative bg-white rounded-2xl shadow-xl w-full max-w-md transform transition-all"
+        <div class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm transition-opacity" onclick="closeCustomerModal()"></div>
+        <form id="customerForm" class="relative bg-white rounded-2xl shadow-xl w-full max-w-md transform transition-all"
             method="POST">
 
             @csrf
@@ -15,10 +15,10 @@
 
             <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
                 <div>
-                    <h3 id="categoryModalTitle" class="text-base font-semibold text-gray-900">Add New Category</h3>
-                    <p id="categoryModalDesc" class="text-xs text-gray-500 mt-0.5">Create a new product category.</p>
+                    <h3 id="categoryModalTitle" class="text-base font-semibold text-gray-900">Add New Customer</h3>
+
                 </div>
-                <button type="button" onclick="closeCategoryModal()"
+                <button type="button" onclick="closeCustomerModal()"
                     class="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -27,7 +27,7 @@
             </div>
             <div class="px-5 py-5 space-y-4">
                 <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1.5">Category Name <span
+                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1.5">Name <span
                             class="text-red-500">*</span></label>
                     <input type="text" id="name" name="name" placeholder="e.g. Electronics"
                         class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-colors bg-white">
@@ -38,19 +38,31 @@
                     @enderror
                 </div>
                 <div>
-                    <label for="slug" class="block text-sm font-medium text-gray-700 mb-1.5">Slug <span
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1.5">Email <span
                             class="text-red-500">*</span></label>
-                    <input type="text" id="slug" name="slug" placeholder="e.g. electronics"
+                    <input type="email" id="email" name="email" placeholder="e.g. example@gmail.com"
                         class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-colors bg-white font-mono">
-                    @error('slug')
+                    @error('email')
                         <p class="mt-1 text-sm text-red-600">
                             {{ $message }}
                         </p>
                     @enderror
                 </div>
                 <div>
-                    <label for="description" class="block text-sm font-medium text-gray-700 mb-1.5">Description</label>
-                    <textarea id="description" name="description" rows="2" placeholder="Brief description..."
+                    <label for="phone" class="block text-sm font-medium text-gray-700 mb-1.5">Phone <span
+                            class="text-red-500">*</span></label>
+                    <input type="phone" id="phone" name="phone" placeholder="e.g. 017********"
+                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-colors bg-white font-mono">
+                    @error('phone')
+                        <p class="mt-1 text-sm text-red-600">
+                            {{ $message }}
+                        </p>
+                    @enderror
+                </div>
+                <div>
+                    <label for="address" class="block text-sm font-medium text-gray-700 mb-1.5">Address<span
+                            class="text-red-500">*</span></label>
+                    <textarea id="address" name="address" rows="2" placeholder="address..."
                         class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-colors bg-white resize-none"></textarea>
                 </div>
 
@@ -71,7 +83,7 @@
                 </div>
             </div>
             <div class="px-5 py-3 border-t border-gray-100 bg-gray-50 flex items-center justify-end gap-3 rounded-b-2xl">
-                <button type="button" onclick="closeCategoryModal()"
+                <button type="button" onclick="closeCustomerModal()"
                     class="px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-white bg-white transition-colors cursor-pointer">Cancel</button>
                 <button id="categoryModalBtn" type="submit"
                     class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors cursor-pointer">Create</button>
@@ -99,7 +111,7 @@
                 </svg>
                 Export
             </button>
-            <button
+            <button type="button" onclick="openCustomerModal()"
                 class="flex items-center gap-2 px-5 py-2.5 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors shadow-sm">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -426,4 +438,18 @@
             </div>
         </div>
     </div>
+@endsection
+
+
+@section('footer-scripts')
+    <script>
+        function openCustomerModal() {
+            document.getElementById('customerModal').classList.remove('hidden');
+            document.body.classList.add('modal-blur');
+        }
+        function closeCustomerModal() {
+            document.getElementById('customerModal').classList.add('hidden');
+            document.body.classList.remove('modal-blur');
+        }
+    </script>
 @endsection
