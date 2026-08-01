@@ -12,5 +12,6 @@ Route::middleware('auth')->prefix('people')->name('people.')->group(function () 
         ->group(function () {
             Route::get('/', 'index');
             Route::post('/', 'store');
+            Route::delete('/{customer}', 'destroy');
         });
 });
